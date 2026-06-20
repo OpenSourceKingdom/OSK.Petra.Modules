@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="OSK.Petra.Modules.Services.Configuration.Json/OSK.Petra.Modules.Services.Configuration.Json.csproj" />
+  <Project Path="OSK.Petra.Modules.Services/OSK.Petra.Modules.Services.csproj" />
+  <Project Path="OSK.Petra.Modules/OSK.Petra.Modules.csproj" />
+</Solution>
