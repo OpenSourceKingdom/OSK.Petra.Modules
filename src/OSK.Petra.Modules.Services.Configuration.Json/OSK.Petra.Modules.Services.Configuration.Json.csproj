@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+
+		<Description>A game configuration that utilizes a json file, like appsettings, for the Petra game suite and framework, for use within any C# game engine. </Description>
+		<PackageTags>OpenSourceKingdom, OpenSource, Petra, Game, Framework, Suite, Tool, Dependency, Inject, Injection, Container, Service, Provider, Configuration, Json</PackageTags>
+		<Title>OSK.Petra.Modules.Services.Configuration.Json</Title>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\OSK.Petra.Modules.Services\OSK.Petra.Modules.Services.csproj" />
+	</ItemGroup>
+
+</Project>
