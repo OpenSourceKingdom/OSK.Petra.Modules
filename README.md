@@ -1,7 +1,6 @@
 # OSK.Petra.Modules
 
-A core pillar of a game engine that represents scene or level that can be added or remvoed during
-runtime. This project contains the broad definitions and data for a simple, standard game module  
+A core pillar of a game engine that represents scene or level that can be added or remvoed during runtime. This project contains the broad definitions and data for a simple, standard game module  
 
 # OSK.Petra.Modules.Services
 
