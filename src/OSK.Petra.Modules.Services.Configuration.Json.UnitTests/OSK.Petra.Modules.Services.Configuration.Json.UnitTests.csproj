@@ -21,6 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\OSK.Petra.Modules.Services.Configuration.Json\OSK.Petra.Modules.Services.Configuration.Json.csproj" />
 		<Using Include="Xunit" />
 	</ItemGroup>
 

@@ -14,6 +14,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
 		<PackageReference Include="Moq" Version="4.20.72" />
+		<PackageReference Include="OSK.Extensions.Object.DeepEquals" Version="1.2.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,6 +23,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\OSK.Petra.Modules.Services\OSK.Petra.Modules.Services.csproj" />
+		<PackageReference Include="OSK.Petra.DependencyInjection" Version="0.1.0" />
 		<Using Include="Xunit" />
 	</ItemGroup>
 

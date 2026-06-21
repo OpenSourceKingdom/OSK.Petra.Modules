@@ -1,5 +1,7 @@
 <Solution>
+  <Project Path="OSK.Petra.Modules.Services.Configuration.Json.UnitTests/OSK.Petra.Modules.Services.Configuration.Json.UnitTests.csproj" Id="967c7964-45b8-4165-8939-898a90b227f0" />
   <Project Path="OSK.Petra.Modules.Services.Configuration.Json/OSK.Petra.Modules.Services.Configuration.Json.csproj" />
+  <Project Path="OSK.Petra.Modules.Services.UnitTests/OSK.Petra.Modules.Services.UnitTests.csproj" Id="31098589-f859-437a-940d-c113d5108101" />
   <Project Path="OSK.Petra.Modules.Services/OSK.Petra.Modules.Services.csproj" />
   <Project Path="OSK.Petra.Modules/OSK.Petra.Modules.csproj" />
 </Solution>
