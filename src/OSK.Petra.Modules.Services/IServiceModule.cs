@@ -15,6 +15,6 @@ public interface IServiceModule: IModule
     /// <summary>
     /// Initializes the module using the provided <see cref="IGameServiceProvider"/>
     /// </summary>
-    /// <param name="serviceProvider"></param>
+    /// <param name="serviceProvider">The servuces to initialize the module with</param>
     void Initialize(IGameServiceProvider serviceProvider);
 }

@@ -2,6 +2,9 @@ using System;
 
 namespace OSK.Petra.Modules;
 
+/// <summary>
+/// A strongly typed name for a module
+/// </summary>
 public readonly struct ModuleName : IEquatable<ModuleName>
 {
     #region Variables

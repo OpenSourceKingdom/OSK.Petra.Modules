@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<Nullable>enable</Nullable>
 		
-		<Description>A game module that utilizes .NET DI for the Petra game suite and framework, for use within any C# game engine. </Description>
+		<Description>A game module definition and services that utilizes .NET DI for the Petra game suite and framework, for use within any C# game engine. </Description>
 		<PackageTags>OpenSourceKingdom, OpenSource, Petra, Game, Framework, Suite, Tool, Dependency, Inject, Injection, Container, Service, Provider, Module</PackageTags>
 		<Title>OSK.Petra.Modules.Services</Title>
 	</PropertyGroup>
