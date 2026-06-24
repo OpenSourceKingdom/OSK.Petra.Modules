@@ -12,7 +12,7 @@ public class ModuleServiceBuilderTests
     #region Variables
 
     private readonly Mock<IGameServiceProvider> _mockServiceProvider;
-    private readonly Mock<Ports.IConfigurationProvider> _mockConfigurationProvider;
+    private readonly Mock<Ports.IModuleConfigurationProvider> _mockConfigurationProvider;
     private readonly IConfiguration _mockConfiguration;
 
     #endregion
@@ -22,7 +22,7 @@ public class ModuleServiceBuilderTests
     public ModuleServiceBuilderTests()
     {
         _mockServiceProvider = new Mock<IGameServiceProvider>();
-        _mockConfigurationProvider = new Mock<Ports.IConfigurationProvider>();
+        _mockConfigurationProvider = new Mock<Ports.IModuleConfigurationProvider>();
         _mockConfiguration = new ConfigurationBuilder().Build();
 
         _mockConfigurationProvider.Setup(p => p.GetConfiguration())

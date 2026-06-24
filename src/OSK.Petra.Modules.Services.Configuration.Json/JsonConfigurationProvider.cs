@@ -4,9 +4,9 @@ using System;
 namespace OSK.Petra.Modules.Services.Configuration.Json;
 
 /// <summary>
-/// An <see cref="Ports.IConfigurationProvider"/> that gets configuration from a Json file in the project
+/// An <see cref="Ports.IModuleConfigurationProvider"/> that gets configuration from a Json file in the project
 /// </summary>
-public class JsonConfigurationProvider : OSK.Petra.Modules.Services.Ports.IConfigurationProvider
+public class JsonConfigurationProvider : OSK.Petra.Modules.Services.Ports.IModuleConfigurationProvider
 {
     #region Variables
 
