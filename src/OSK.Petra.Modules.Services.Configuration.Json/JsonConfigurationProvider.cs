@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using OSK.Petra.Modules.Services.Ports;
 using System;
 
 namespace OSK.Petra.Modules.Services.Configuration.Json;
 
 /// <summary>
-/// An <see cref="Ports.IModuleConfigurationProvider"/> that gets configuration from a Json file in the project
+/// An <see cref="IModuleConfigurationProvider"/> that gets configuration from a Json file in the project
 /// </summary>
-public class JsonConfigurationProvider : OSK.Petra.Modules.Services.Ports.IModuleConfigurationProvider
+public class JsonConfigurationProvider : IModuleConfigurationProvider
 {
     #region Variables
 
@@ -58,7 +59,7 @@ public class JsonConfigurationProvider : OSK.Petra.Modules.Services.Ports.IModul
 
     #endregion
 
-    #region IGameConfigurationProvider
+    #region IModuleConfigurationProvider
 
     /// <inheritdoc/>
     public IConfiguration GetConfiguration()
