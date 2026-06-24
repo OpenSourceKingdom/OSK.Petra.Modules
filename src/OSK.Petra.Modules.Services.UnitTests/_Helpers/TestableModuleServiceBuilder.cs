@@ -9,7 +9,7 @@ public class TestableModuleServiceBuilder : ModuleServiceBuilder
     {
     }
 
-    public TestableModuleServiceBuilder(Ports.IConfigurationProvider configurationProvider, IGameServiceProvider? serviceProvider = null)
+    public TestableModuleServiceBuilder(Ports.IModuleConfigurationProvider configurationProvider, IGameServiceProvider? serviceProvider = null)
         : base(configurationProvider, serviceProvider)
     {
     }

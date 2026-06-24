@@ -35,7 +35,7 @@ public abstract class ModuleServiceBuilder : IModuleServiceBuilder
     /// </summary>
     /// <param name="configurationProvider">The configuration provider to use to retrieve the app configuration with the scene initialization</param>
     /// <param name="serviceProvider">An initializing service provider</param>
-    public ModuleServiceBuilder(Ports.IConfigurationProvider configurationProvider, IGameServiceProvider? serviceProvider = null)
+    public ModuleServiceBuilder(Ports.IModuleConfigurationProvider configurationProvider, IGameServiceProvider? serviceProvider = null)
     {
         if (configurationProvider is null)
         {
@@ -49,7 +49,7 @@ public abstract class ModuleServiceBuilder : IModuleServiceBuilder
 
     #endregion
 
-    #region IGameServiceConfigurator
+    #region IModuleServiceBuilder
 
     /// <inheritdoc/>
     public IReadOnlyCollection<Action<IServiceProvider>> PostInitializationActions => _postInitializationActions;
