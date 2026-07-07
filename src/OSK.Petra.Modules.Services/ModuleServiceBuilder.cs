@@ -11,7 +11,7 @@ using System.Linq;
 namespace OSK.Petra.Modules.Services;
 
 /// <summary>
-///  A base class for game service configurators
+///  A base class for game service builders
 /// </summary>
 public abstract class ModuleServiceBuilder : IModuleServiceBuilder
 {

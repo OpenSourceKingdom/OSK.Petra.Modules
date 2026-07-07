@@ -9,7 +9,7 @@ namespace OSK.Petra.Modules.Services.Ports;
 /// <summary>
 /// A configurator that combines with the <see cref="IGameServiceProvider"/> to initialize an entire game scene or level for use with a DI container
 /// </summary>
-[HexagonalIntegration(HexagonalIntegrationType.LibraryProvided)]
+[HexagonalIntegration(HexagonalIntegrationType.IntegrationRequired)]
 public interface IModuleServiceBuilder
 {
     /// <summary>
