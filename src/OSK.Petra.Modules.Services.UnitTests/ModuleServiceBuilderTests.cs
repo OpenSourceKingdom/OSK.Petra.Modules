@@ -36,6 +36,10 @@ public class ModuleServiceBuilderTests
     [Fact]
     public void Constructor_WithServiceProviderOnly_CreatesBuilderWithEmptyConfig()
     {
+        // Arrange
+        _mockServiceProvider.Setup(m => m.GetServiceDescriptors())
+            .Returns([]);
+
         // Act
         var builder = new TestableModuleServiceBuilder(_mockServiceProvider.Object);
 
@@ -52,13 +56,14 @@ public class ModuleServiceBuilderTests
     {
         // Arrange
         var expectedServices = new ServiceCollection();
-        _mockServiceProvider.Setup(sp => sp.CreateScopedServices()).Returns(expectedServices);
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([.. expectedServices]);
 
         // Act
         var builder = new TestableModuleServiceBuilder(_mockServiceProvider.Object);
 
         // Assert
-        Assert.Same(expectedServices, builder.Services);
+        Assert.Equal(expectedServices, builder.Services);
     }
 
     #endregion
@@ -75,6 +80,10 @@ public class ModuleServiceBuilderTests
     [Fact]
     public void Constructor_WithValidConfigurationProvider_SetsConfiguration()
     {
+        // Arrange
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([]);
+
         // Act
         var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object);
 
@@ -98,15 +107,16 @@ public class ModuleServiceBuilderTests
     {
         // Arrange
         var expectedServices = new ServiceCollection();
+        expectedServices.AddTransient<IServiceCollection, ServiceCollection>();
 
-        _mockServiceProvider.Setup(sp => sp.CreateScopedServices())
-            .Returns(expectedServices);
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([.. expectedServices]);
 
         // Act
-        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object);
+        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object, useAsPrimary: true);
 
         // Assert
-        Assert.Same(expectedServices, builder.Services);
+        Assert.Equal(expectedServices.Count, builder.Services.Count);
     }
 
     #endregion

@@ -24,7 +24,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\OSK.Petra.Modules.Services\OSK.Petra.Modules.Services.csproj" />
-		<PackageReference Include="OSK.Petra.DependencyInjection" Version="0.1.0" />
 		<Using Include="Xunit" />
 	</ItemGroup>
 

@@ -31,7 +31,7 @@ public class ModuleServiceBuilderExtensionsTests
         var action = new Action<IServiceProvider>(_ => { });
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => ModuleServiceBuilderExtensions.AddPostInitializationAction(nullBuilder, action));
+        Assert.Throws<ArgumentNullException>(() => ModuleServiceBuilderExtensions.AddPostInitializationAction(nullBuilder!, action));
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class ModuleServiceBuilderExtensionsTests
         var action = new Action<ITestMarker>(_ => { });
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => ModuleServiceBuilderExtensions.AddPostInitializationAction<ITestMarker>(nullBuilder, action));
+        Assert.Throws<ArgumentNullException>(() => ModuleServiceBuilderExtensions.AddPostInitializationAction<ITestMarker>(nullBuilder!, action));
     }
 
     [Fact]
