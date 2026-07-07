@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
 using OSK.Extensions.Object.DeepEquals;
 using OSK.Petra.DependencyInjection.Ports;
@@ -168,7 +169,7 @@ public class ModuleServiceBuilderTests
     #region BuildServiceProvider
 
     [Fact]
-    public void BuildServiceProvider_ReturnsIGameServiceProvider()
+    public void BuildServiceProvider_NoInitialServiceProvider_ReturnsValidGameServiceProvider()
     {
         // Arrange
         var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object);
@@ -178,6 +179,128 @@ public class ModuleServiceBuilderTests
 
         // Assert
         Assert.NotNull(provider);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void BuildServiceProvider_IncludesInitialServiceProvider_ReturnsValidServiceProvider(bool useAsPrimaryProvider)
+    {
+        // Arrange
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([]);
+
+        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object, useAsPrimaryProvider);
+
+        // Act
+        var provider = builder.BuildServiceProvider();
+
+        // Assert
+        Assert.NotNull(provider);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void BuildServiceProvider_DuplicateServiceDescriptors_AddedViaTryAdd_OnlyContainsASingleReferenceBasedOnProviderSetup(bool useAsPrimaryProvider)
+    {
+        // Arrange
+        var childMarker = new TestMarkerImplementation();
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([new ServiceDescriptor(typeof(ITestMarker), typeof(TestMarkerImplementation), ServiceLifetime.Singleton)]);
+
+        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object, useAsPrimaryProvider);
+        builder.Services.TryAddSingleton<ITestMarker>(childMarker);
+
+        // Act
+        var provider = builder.BuildServiceProvider();
+
+        // Assert - child registration is always preserved in the collection regardless of path
+        var descriptors = builder.Services.Where(s => s.ServiceType == typeof(ITestMarker)).ToList();
+        Assert.Single(descriptors);
+    }
+
+    [Fact]
+    public void BuildServiceProvider_InitialProviderSetAsFallback_ServiceInBothParentAndChildProviders_ResolvesChildImplementation()
+    {
+        // Arrange - useAsPrimaryProvider = false: child services registered first, parent infused on build via TryAdd
+        var childMarker = new TestMarkerImplementation();
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([new ServiceDescriptor(typeof(ITestMarker), typeof(TestMarkerImplementation), ServiceLifetime.Singleton)]);
+
+        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object, useAsPrimary: false);
+        builder.Services.AddSingleton<ITestMarker>(childMarker);
+
+        // Act
+        var provider = builder.BuildServiceProvider();
+
+        // Assert
+        Assert.Single(builder.Services, s => s.ServiceType == typeof(ITestMarker));
+
+        var resolved = (ITestMarker)provider.GetService(typeof(ITestMarker))!;
+        Assert.Same(childMarker, resolved);
+    }
+
+    [Fact]
+    public void BuildServiceProvider_InitialProviderSetAsPrimary_ServiceInBothParentAndChildProviders_ResolveParentImplementation()
+    {
+        // Arrange
+        var parentMarker = new TestMarkerImplementation();
+
+        _mockServiceProvider.Setup(m => m.GetService(It.Is<Type>(t => t == typeof(ITestMarker))))
+            .Returns(parentMarker);
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([new ServiceDescriptor(typeof(ITestMarker), typeof(TestMarkerImplementation), ServiceLifetime.Singleton)]);
+
+        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object, useAsPrimary: true);
+        builder.Services.AddSingleton<ITestMarker, TestMarkerImplementation>();
+
+        // Act
+        var provider = builder.BuildServiceProvider();
+
+        // Asserty
+        var resolved = (ITestMarker)provider.GetService(typeof(ITestMarker))!;
+        Assert.NotSame(parentMarker, resolved);
+    }
+
+    [Fact]
+    public void BuildServiceProvider_InitialProviderSetAsFallback_GetServiceNotInChildProvider_ResolvesFromParent()
+    {
+        // Arrange
+        var parentMarker = new TestMarkerImplementation();
+        _mockServiceProvider.Setup(sp => sp.GetService(typeof(ITestMarker)))
+            .Returns(parentMarker);
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([new ServiceDescriptor(typeof(ITestMarker), typeof(TestMarkerImplementation), ServiceLifetime.Singleton)]);
+
+        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object, useAsPrimary: false);
+
+        // Act
+        var provider = builder.BuildServiceProvider();
+
+        // Assert - parent's service is available as fallback when child has no registration
+        var resolved = (ITestMarker)provider.GetService(typeof(ITestMarker))!;
+        Assert.Same(parentMarker, resolved);
+    }
+
+    [Fact]
+    public void BuildServiceProvider_InitialProviderSetAsPrimary_GetServiceNotInParentProvider_ResolvesFromChild()
+    {
+        // Arrange
+        _mockServiceProvider.Setup(sp => sp.GetServiceDescriptors())
+            .Returns([]);
+
+        var builder = new TestableModuleServiceBuilder(_mockConfigurationProvider.Object, _mockServiceProvider.Object, useAsPrimary: true);
+
+        var childMarker = new TestMarkerImplementation();
+        builder.Services.AddTransient<ITestMarker>(_ => childMarker);
+
+        // Act
+        var provider = builder.BuildServiceProvider();
+
+        // Assert
+        var resolved = (ITestMarker)provider.GetService(typeof(ITestMarker))!;
+        Assert.Same(childMarker, resolved);
     }
 
     #endregion
