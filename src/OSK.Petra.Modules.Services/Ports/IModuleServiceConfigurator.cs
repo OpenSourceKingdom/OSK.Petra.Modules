@@ -1,8 +1,11 @@
-﻿namespace OSK.Petra.Modules.Services.Ports;
+﻿using OSK.Hexagonal.MetaData;
+
+namespace OSK.Petra.Modules.Services.Ports;
 
 /// <summary>
 /// An object that is able to configure and modify a module's service as it is being built
 /// </summary>
+[HexagonalIntegration(HexagonalIntegrationType.ConsumerOptional)]
 public interface IModuleServiceConfigurator<TBuilder>
     where TBuilder: IModuleServiceBuilder
 {
